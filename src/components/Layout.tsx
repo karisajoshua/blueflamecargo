@@ -27,15 +27,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+  const isHomePage = location.pathname === "/";
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       <header 
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+        className={`${isHomePage && !isScrolled ? 'absolute' : 'sticky'} top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
             ? "bg-card border-b shadow-sm" 
-            : "bg-transparent backdrop-blur-sm"
+            : "bg-transparent"
         }`}
       >
         <nav className="container mx-auto px-4 py-4">
