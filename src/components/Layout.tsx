@@ -35,7 +35,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         className={`sticky top-0 z-50 transition-all duration-300 ${
           isScrolled 
             ? "bg-card border-b shadow-sm" 
-            : "bg-transparent"
+            : "bg-transparent backdrop-blur-sm"
         }`}
       >
         <nav className="container mx-auto px-4 py-4">
