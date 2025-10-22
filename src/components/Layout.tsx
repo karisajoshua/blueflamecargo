@@ -158,8 +158,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
 
-          <div className="border-t border-primary-foreground/20 mt-8 pt-6 text-center text-sm text-primary-foreground/70">
-            © 2025 BlueFlame Cargo Masters Ltd. All rights reserved.
+          <div className="border-t border-primary-foreground/20 mt-8 pt-6 text-center">
+            <p className="text-sm text-primary-foreground/70">
+              © 2025 BlueFlame Cargo Masters Ltd. All rights reserved.
+            </p>
+            <p className="text-xs text-primary-foreground/50 mt-2">
+              Powered by Texcortech Systems
+            </p>
           </div>
         </div>
       </footer>

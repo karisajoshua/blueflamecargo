@@ -2,16 +2,56 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Package, Search, MapPin, Clock, CheckCircle } from "lucide-react";
+import { Package, Search, MapPin, Clock, CheckCircle, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const Track = () => {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [isTracking, setIsTracking] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [trackingData, setTrackingData] = useState<any>(null);
 
-  const handleTrack = (e: React.FormEvent) => {
+  const handleTrack = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsTracking(true);
-    // Integration placeholder - would call actual tracking API
+    
+    if (!trackingNumber.trim()) {
+      toast.error("Please enter a tracking number");
+      return;
+    }
+
+    setIsLoading(true);
+    setTrackingData(null);
+
+    try {
+      // Call the edge function
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co'}/functions/v1/track-shipment`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ trackingNumber: trackingNumber.trim() }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch tracking data');
+      }
+
+      const data = await response.json();
+      setTrackingData(data);
+      setIsTracking(true);
+      toast.success("Tracking data retrieved successfully!");
+    } catch (error) {
+      console.error('Tracking error:', error);
+      toast.error("Failed to retrieve tracking data. Please try again.");
+      
+      // Fallback to demo data if API fails
+      setIsTracking(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -46,9 +86,18 @@ const Track = () => {
                     className="flex-1"
                     required
                   />
-                  <Button type="submit" variant="cta" size="lg">
-                    <Search className="h-5 w-5 mr-2" />
-                    Track
+                  <Button type="submit" variant="cta" size="lg" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                        Tracking...
+                      </>
+                    ) : (
+                      <>
+                        <Search className="h-5 w-5 mr-2" />
+                        Track
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>

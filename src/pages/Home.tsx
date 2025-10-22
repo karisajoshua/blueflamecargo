@@ -2,9 +2,22 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Globe, Truck, Clock, Shield, ArrowRight, Package, Plane, Ship } from "lucide-react";
-import heroImage from "@/assets/hero-cargo.jpg";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { useEffect, useRef } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import heroCargo1 from "@/assets/hero-cargo.jpg";
+import heroCargo2 from "@/assets/hero-cargo-2.jpg";
+import heroCargo3 from "@/assets/hero-cargo-3.jpg";
+import heroCargo4 from "@/assets/hero-cargo-4.jpg";
+import heroCargo5 from "@/assets/hero-cargo-5.jpg";
 
 const Home = () => {
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: false })
+  );
+
+  const heroImages = [heroCargo1, heroCargo2, heroCargo3, heroCargo4, heroCargo5];
+
   const features = [
     {
       icon: Globe,
@@ -61,17 +74,35 @@ const Home = () => {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `linear-gradient(135deg, rgba(0, 51, 102, 0.95) 0%, rgba(0, 51, 102, 0.85) 100%), url(${heroImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+      {/* Hero Section with Carousel */}
+      <section className="relative h-[600px] overflow-hidden">
+        {/* Background Image Carousel */}
+        <Carousel
+          plugins={[plugin.current]}
+          className="absolute inset-0"
+          opts={{
+            loop: true,
+            align: "start",
           }}
-        />
-        <div className="container relative z-10 mx-auto px-4 py-24 md:py-32">
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
+        >
+          <CarouselContent>
+            {heroImages.map((image, index) => (
+              <CarouselItem key={index}>
+                <div 
+                  className="h-[600px] w-full bg-cover bg-center"
+                  style={{ backgroundImage: `url(${image})` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/60" />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+
+        {/* Content Overlay */}
+        <div className="container relative z-10 mx-auto px-4 h-full flex items-center">
           <div className="max-w-3xl text-primary-foreground">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
               Global Reach. Local Expertise. Seamless Logistics.

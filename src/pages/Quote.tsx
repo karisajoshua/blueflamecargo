@@ -5,8 +5,21 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { FileText, CheckCircle } from "lucide-react";
+import { FileText, CheckCircle, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
+import { z } from "zod";
+
+// Validation schema
+const quoteSchema = z.object({
+  fullName: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name is too long"),
+  email: z.string().trim().email("Invalid email address").max(255, "Email is too long"),
+  phone: z.string().trim().min(10, "Phone number is too short").max(20, "Phone number is too long"),
+  cargoType: z.string().trim().max(200, "Cargo type is too long"),
+  origin: z.string().trim().max(200, "Origin is too long"),
+  destination: z.string().trim().max(200, "Destination is too long"),
+  mode: z.string().min(1, "Please select a transport mode"),
+  notes: z.string().trim().max(1000, "Notes are too long"),
+});
 
 const Quote = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -24,21 +37,43 @@ const Quote = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
-    if (!formData.fullName || !formData.email || !formData.phone || !formData.mode) {
-      toast.error("Please fill in all required fields");
-      return;
+    // Validate form data using Zod
+    try {
+      quoteSchema.parse(formData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(error.errors[0].message);
+        return;
+      }
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
+    // Format message for WhatsApp
+    const reference = `BFC-${Date.now().toString().slice(-6)}`;
+    const whatsappMessage = `🚚 *Quote Request from BlueFlame Cargo*
 
-    // Simulate form submission
-    console.log("Quote request submitted:", formData);
+📋 *Contact Details:*
+Name: ${formData.fullName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+📦 *Shipment Details:*
+${formData.cargoType ? `Cargo Type: ${formData.cargoType}` : ''}
+${formData.origin ? `Origin: ${formData.origin}` : ''}
+${formData.destination ? `Destination: ${formData.destination}` : ''}
+Transport Mode: ${formData.mode === 'air' ? 'Air Freight' : formData.mode === 'sea' ? 'Sea Freight' : formData.mode === 'road' ? 'Road Transport' : 'Multi-Modal'}
+
+${formData.notes ? `📝 *Additional Notes:*\n${formData.notes}` : ''}
+
+Reference: ${reference}`;
+
+    // Encode message for WhatsApp URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    const whatsappURL = `https://wa.me/254728268660?text=${encodedMessage}`;
+
+    // Open WhatsApp in new window
+    window.open(whatsappURL, '_blank');
+    
+    // Show success state
     setSubmitted(true);
     toast.success("Quote request submitted successfully!");
   };
@@ -68,9 +103,21 @@ const Quote = () => {
                 <strong>Reference:</strong> BFC-{Date.now().toString().slice(-6)}
               </p>
             </div>
-            <Button variant="cta" onClick={() => setSubmitted(false)}>
-              Submit Another Request
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                variant="cta" 
+                onClick={() => {
+                  const encodedMessage = encodeURIComponent(`Following up on quote reference: BFC-${Date.now().toString().slice(-6)}`);
+                  window.open(`https://wa.me/254728268660?text=${encodedMessage}`, '_blank');
+                }}
+              >
+                <MessageCircle className="h-5 w-5 mr-2" />
+                Open WhatsApp Chat
+              </Button>
+              <Button variant="outline" onClick={() => setSubmitted(false)}>
+                Submit Another Request
+              </Button>
+            </div>
           </Card>
         </div>
       </div>
