@@ -1,11 +1,21 @@
 import { Link, useLocation } from "react-router-dom";
 import { Package, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { to: "/", label: "Home" },
@@ -21,7 +31,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b shadow-sm">
+      <header 
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          isScrolled 
+            ? "bg-card border-b shadow-sm" 
+            : "bg-transparent"
+        }`}
+      >
         <nav className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -30,8 +46,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <Package className="h-6 w-6 text-accent-foreground" />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-lg text-primary leading-none">BlueFlame</span>
-                <span className="text-xs text-muted-foreground">Cargo Masters</span>
+                <span className={`font-bold text-lg leading-none transition-colors ${
+                  isScrolled ? "text-primary" : "text-white"
+                }`}>BlueFlame</span>
+                <span className={`text-xs transition-colors ${
+                  isScrolled ? "text-muted-foreground" : "text-white/70"
+                }`}>Cargo Masters</span>
               </div>
             </Link>
 
@@ -44,7 +64,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   className={`px-4 py-2 rounded-md font-medium transition-colors ${
                     isActive(link.to)
                       ? "text-accent bg-accent/10"
-                      : "text-foreground hover:text-accent hover:bg-accent/5"
+                      : isScrolled 
+                        ? "text-foreground hover:text-accent hover:bg-accent/5"
+                        : "text-white hover:text-accent hover:bg-white/10"
                   }`}
                 >
                   {link.label}
@@ -62,15 +84,23 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 hover:bg-secondary rounded-md"
+              className={`md:hidden p-2 rounded-md transition-colors ${
+                isScrolled ? "hover:bg-secondary" : "hover:bg-white/10"
+              }`}
             >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileMenuOpen ? (
+                <X className={`h-6 w-6 ${isScrolled ? "" : "text-white"}`} />
+              ) : (
+                <Menu className={`h-6 w-6 ${isScrolled ? "" : "text-white"}`} />
+              )}
             </button>
           </div>
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 space-y-2 border-t pt-4">
+            <div className={`md:hidden mt-4 pb-4 space-y-2 border-t pt-4 ${
+              isScrolled ? "bg-card" : "bg-primary/95 backdrop-blur-sm"
+            }`}>
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
@@ -79,7 +109,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   className={`block px-4 py-3 rounded-md font-medium transition-colors ${
                     isActive(link.to)
                       ? "text-accent bg-accent/10"
-                      : "text-foreground hover:bg-secondary"
+                      : isScrolled
+                        ? "text-foreground hover:bg-secondary"
+                        : "text-white hover:bg-white/10"
                   }`}
                 >
                   {link.label}

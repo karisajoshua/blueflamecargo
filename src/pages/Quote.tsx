@@ -70,8 +70,8 @@ Reference: ${reference}`;
     const encodedMessage = encodeURIComponent(whatsappMessage);
     const whatsappURL = `https://wa.me/254728268660?text=${encodedMessage}`;
 
-    // Open WhatsApp in new window
-    window.open(whatsappURL, '_blank');
+    // Navigate to WhatsApp (avoids popup blocker)
+    window.location.href = whatsappURL;
     
     // Show success state
     setSubmitted(true);
