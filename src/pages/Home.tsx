@@ -3,8 +3,9 @@ import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Globe, Truck, Clock, Shield, ArrowRight, Package, Plane, Ship } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
+import Fade from "embla-carousel-fade";
 import heroCargo1 from "@/assets/hero-cargo.jpg";
 import heroCargo2 from "@/assets/hero-cargo-2.jpg";
 import heroCargo3 from "@/assets/hero-cargo-3.jpg";
@@ -12,9 +13,11 @@ import heroCargo4 from "@/assets/hero-cargo-4.jpg";
 import heroCargo5 from "@/assets/hero-cargo-5.jpg";
 
 const Home = () => {
-  const plugin = useRef(
+  const autoplayPlugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false })
   );
+  
+  const fadePlugin = useRef(Fade());
 
   const heroImages = [heroCargo1, heroCargo2, heroCargo3, heroCargo4, heroCargo5];
 
@@ -78,20 +81,20 @@ const Home = () => {
       <section className="relative h-[600px] overflow-hidden">
         {/* Background Image Carousel */}
         <Carousel
-          plugins={[plugin.current]}
+          plugins={[fadePlugin.current, autoplayPlugin.current]}
           className="absolute inset-0"
           opts={{
             loop: true,
-            align: "start",
+            duration: 30,
           }}
-          onMouseEnter={plugin.current.stop}
-          onMouseLeave={plugin.current.reset}
+          onMouseEnter={autoplayPlugin.current.stop}
+          onMouseLeave={autoplayPlugin.current.reset}
         >
-          <CarouselContent>
+          <CarouselContent className="-ml-0">
             {heroImages.map((image, index) => (
-              <CarouselItem key={index}>
+              <CarouselItem key={index} className="pl-0">
                 <div 
-                  className="h-[600px] w-full bg-cover bg-center"
+                  className="h-[600px] w-full bg-cover bg-center transition-opacity duration-1000"
                   style={{ backgroundImage: `url(${image})` }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/60" />
