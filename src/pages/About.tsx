@@ -7,7 +7,7 @@ const About = () => {
       {/* Hero Section */}
       <section className="bg-primary text-primary-foreground py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">About BlueFlame Cargo Masters</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">About BlueFlame Cargo Master</h1>
           <p className="text-xl max-w-3xl mx-auto text-primary-foreground/90">
             Your trusted logistics partner for seamless global freight solutions
           </p>
@@ -21,7 +21,7 @@ const About = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">Our Story</h2>
             <div className="space-y-6 text-lg text-muted-foreground">
               <p>
-                BlueFlame Cargo Masters Ltd is a trusted logistics partner offering expert clearing and forwarding
+                BlueFlame Cargo Master Ltd is a trusted logistics partner offering expert clearing and forwarding
                 solutions across East Africa and beyond. With a strong base in Kenya, a global logistics network, and a
                 passionate team, we ensure your cargo reaches its destination efficiently and hassle-free.
               </p>
