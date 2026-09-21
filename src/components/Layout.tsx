@@ -49,7 +49,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <div className="flex flex-col">
                 <span className={`font-bold text-lg leading-none transition-colors ${
                   isScrolled ? "text-primary" : "text-white"
-                }`}>BlueFlame</span>
+                }`}>Blue Flame Cargo Master Int</span>
                 <span className={`text-xs transition-colors ${
                   isScrolled ? "text-muted-foreground" : "text-white/70"
                 }`}>Cargo Masters</span>
@@ -139,7 +139,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <Package className="h-6 w-6" />
-                <span className="font-bold text-lg">BlueFlame</span>
+                <span className="font-bold text-lg">Blue Flame Cargo Master Int</span>
               </div>
               <p className="text-sm text-primary-foreground/80">
                 Global Reach. Local Expertise. Seamless Logistics.
@@ -193,7 +193,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
           <div className="border-t border-primary-foreground/20 mt-8 pt-6 text-center">
             <p className="text-sm text-primary-foreground/70">
-              © 2025 BlueFlame Cargo Masters Ltd. All rights reserved.
+              © 2025 Blue Flame Cargo Master Int. All rights reserved.
             </p>
             <p className="text-xs text-primary-foreground/50 mt-2">
               Powered by Texcortech Systems
