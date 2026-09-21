@@ -64,7 +64,7 @@ const Home = () => {
 
   const testimonials = [
     {
-      quote: "BlueFlame has been our logistics partner for over 3 years — they've never missed a deadline.",
+      quote: "Blue Flame Cargo Master Int has been our logistics partner for over 3 years — they've never missed a deadline.",
       author: "Jane M.",
       company: "Nairobi Imports Ltd.",
     },
@@ -136,7 +136,7 @@ const Home = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose BlueFlame?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose Blue Flame Cargo Master Int?</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               We combine global reach with personalized service to deliver exceptional logistics solutions
             </p>
