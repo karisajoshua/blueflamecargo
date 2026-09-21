@@ -21,7 +21,7 @@ const About = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">Our Story</h2>
             <div className="space-y-6 text-lg text-muted-foreground">
               <p>
-                Blue Flame Cargo Master Int Ltd is a trusted logistics partner offering expert clearing and forwarding
+                Blue Flame Cargo Master Int is a trusted logistics partner offering expert clearing and forwarding
                 solutions across East Africa and beyond. With a strong base in Kenya, a global logistics network, and a
                 passionate team, we ensure your cargo reaches its destination efficiently and hassle-free.
               </p>
