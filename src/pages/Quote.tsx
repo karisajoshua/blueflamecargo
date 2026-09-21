@@ -49,7 +49,7 @@ const Quote = () => {
 
     // Format message for WhatsApp
     const reference = `BFC-${Date.now().toString().slice(-6)}`;
-    const whatsappMessage = `🚚 *Quote Request from BlueFlame Cargo*
+    const whatsappMessage = `🚚 *Quote Request from Blue Flame Cargo Master Int Cargo*
 
 📋 *Contact Details:*
 Name: ${formData.fullName}
